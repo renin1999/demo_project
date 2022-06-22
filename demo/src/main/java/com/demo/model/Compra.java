@@ -8,20 +8,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-@Entity
-@Table(name = "compras")
+
+/*@Entity
+@Table(name = "compras")*/
 public class Compra {
-	@Id
+/*	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idcompra;
+	private Integer idcompra;
+	
+	
 	private String codcompra;
-	private int idarticulo; 
-	private int idproveedor;
+	private Articulo idarticulo; 
+	private Proveedor idproveedor;
 	private int cantidad;
 	private double valor;
 	private double total_compra;
 	private LocalDate fecha_compra;
 	private LocalDate fecha_carga;
-	
+	*/
 }

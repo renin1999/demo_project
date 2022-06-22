@@ -21,7 +21,7 @@ import com.demo.repository.ProveedorRepository;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/proveedor")
 public class ProveedorController {
 	
 	@Autowired
