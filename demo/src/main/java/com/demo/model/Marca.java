@@ -1,6 +1,7 @@
 package com.demo.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public class Marca {
 	private String detalle;
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
-
+	
 	public String getCodmarca() {
 		return codmarca;
 	}
