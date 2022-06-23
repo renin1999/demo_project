@@ -19,9 +19,14 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idusuario;
 	
+	/*
 	@OneToOne
 	@JoinColumn(name = "idpersona")
 	private Persona persona;
+	*/ 
+	
+	@Column(name = "idpersona")
+	private Integer idpersona;
 	
 	@Column(name = "username")
 	private String username;
@@ -34,6 +39,7 @@ public class Usuario {
 		super();
 	}
 
+	/*
 	public Usuario(Persona persona, String username, String userpassword, LocalDate fecha_carga) {
 		super();
 		this.persona = persona;
@@ -41,7 +47,16 @@ public class Usuario {
 		this.userpassword = userpassword;
 		this.fecha_carga = fecha_carga;
 	}
-
+*/
+	
+	public Usuario(Integer idpersona, String username, String userpassword, LocalDate fecha_carga) {
+		super();
+		this.idpersona = idpersona;
+		this.username = username;
+		this.userpassword = userpassword;
+		this.fecha_carga = fecha_carga;
+	}
+	/*
 	public Persona getPersona() {
 		return persona;
 	}
@@ -49,9 +64,21 @@ public class Usuario {
 	public void setPersona(Persona persona) {
 		this.persona = persona;
 	}
+	*/
 
+	
+	
+	
 	public String getUsername() {
 		return username;
+	}
+
+	public Integer getIdpersona() {
+		return idpersona;
+	}
+
+	public void setIdpersona(Integer idpersona) {
+		this.idpersona = idpersona;
 	}
 
 	public void setUsername(String username) {
@@ -74,14 +101,6 @@ public class Usuario {
 		this.fecha_carga = fecha_carga;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [" + (idusuario != null ? "idusuario=" + idusuario + ", " : "")
-				+ (persona != null ? "persona=" + persona + ", " : "")
-				+ (username != null ? "username=" + username + ", " : "")
-				+ (userpassword != null ? "userpassword=" + userpassword + ", " : "")
-				+ (fecha_carga != null ? "fecha_carga=" + fecha_carga : "") + "]";
-	}
 	
 	
 	

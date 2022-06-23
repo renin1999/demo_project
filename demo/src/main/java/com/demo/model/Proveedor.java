@@ -9,7 +9,7 @@ public class Proveedor {
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer idproveedor;
+	private Long idproveedor;
 	@Column(name = "codproveedor")
 	private String codproveedor;
 	@Column(name = "nombre_ape")
@@ -34,7 +34,7 @@ public class Proveedor {
 	/**
 	 * @return the idproveedor
 	 */
-	public Integer getIdproveedor() {
+	public Long getIdproveedor() {
 		return idproveedor;
 	}
 
@@ -128,7 +128,7 @@ public class Proveedor {
 	/**
 	 * @param idproveedor the idproveedor to set
 	 */
-	public void setIdproveedor(Integer idproveedor) {
+	public void setIdproveedor(Long idproveedor) {
 		this.idproveedor = idproveedor;
 	}
 

@@ -23,7 +23,7 @@ public class PersonaController {
 	@Autowired
 	  PersonaRepository personaepository;
 	
-	@GetMapping("/all")
+	@GetMapping("/listAll")
 	public List<Persona> index(){
 		return personaepository.findAll();
 	}

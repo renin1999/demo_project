@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,8 +24,11 @@ public class Compra {
 	@Column(name = "")
 	private String codcompra;
 	
+	@ManyToOne
 	@JoinColumn()
 	private Articulo idarticulo;
+	
+	@ManyToOne
 	@JoinColumn()
 	private Proveedor idproveedor;
 	

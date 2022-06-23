@@ -11,39 +11,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.model.Marca;
+
 import com.demo.model.Usuario;
+
 import com.demo.repository.UsuarioRespository;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
 public class UsuarioController {
-	
 	@Autowired
-		UsuarioRespository usuarioRespository;
+	UsuarioRespository usuarioRespository;
+	
 	
 	@GetMapping("/listAll")
-	public List<Usuario> listUser(){
+	public List<Usuario> listUsuario(){
 		return usuarioRespository.findAll();
 	}
 	
-	 @PostMapping("/insert")
-	 public ResponseEntity<Usuario> createUser(@RequestBody Usuario usuario){
-		 try {
-		    	Usuario _usuario = usuarioRespository
-		    			.save(new Usuario (
-		    					usuario.getPersona(),
-		    					usuario.getUsername(),
-		    					usuario.getUserpassword(),
-		    					usuario.getFecha_carga()
-		    					));
-		    			
-		    			
-		      return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
-		    } catch (Exception e) {
-		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		    }
-	 }
-	 
-	
+	@PostMapping("/insert")
+	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario){
+		try {
+			Usuario _usuario = usuarioRespository.save(
+					new Usuario(
+							usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),usuario.getFecha_carga()
+							));
+			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
