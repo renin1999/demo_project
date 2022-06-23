@@ -21,7 +21,7 @@ public class Compra {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idcompra;
 	
-	@Column(name = "")
+	@Column(name = "codcompra")
 	private String codcompra;
 	
 	@ManyToOne

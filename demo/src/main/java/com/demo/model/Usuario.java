@@ -2,12 +2,15 @@ package com.demo.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -19,13 +22,8 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idusuario;
 	
-	/*
-	@OneToOne
-	@JoinColumn(name = "idpersona")
-	private Persona persona;
-	*/ 
-	
-	@Column(name = "idpersona")
+	@JoinColumn(name = "FK_usuario_persona", nullable = false)
+    @ManyToOne()
 	private Integer idpersona;
 	
 	@Column(name = "username")
@@ -40,14 +38,13 @@ public class Usuario {
 	}
 
 	/*
-	public Usuario(Persona persona, String username, String userpassword, LocalDate fecha_carga) {
+	public Usuario(Persona idpersona, String username, String userpassword, LocalDate fecha_carga) {
 		super();
-		this.persona = persona;
+		this.idpersona = idpersona;
 		this.username = username;
 		this.userpassword = userpassword;
 		this.fecha_carga = fecha_carga;
-	}
-*/
+	}*/
 	
 	public Usuario(Integer idpersona, String username, String userpassword, LocalDate fecha_carga) {
 		super();

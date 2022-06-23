@@ -2,6 +2,7 @@ package com.demo.model;
 
 import java.time.LocalDate;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "proveedor")
@@ -10,7 +11,10 @@ public class Proveedor {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long idproveedor;
+	
+	
 	@Column(name = "codproveedor")
+	@NotNull(message= "Ingresar codigo para del proveedor")
 	private String codproveedor;
 	@Column(name = "nombre_ape")
 	private String nombre_ape;
