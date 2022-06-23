@@ -42,7 +42,7 @@ public class Venta {
 	@Column(name= "fecha_carga")
 	private LocalDate fecha_carga;
 	
-	public Venta(String codventas, Articulo idarticulo, Gerente idgerente, int cantidad, double valor,
+	public Venta(String codventas, Articulo idarticulo, Gerente idgerente, Integer cantidad, double valor,
 			double total_ventas, LocalDate fecha_venta, LocalDate fecha_carga) {
 		super();
 		this.codventas = codventas;
@@ -91,11 +91,11 @@ public class Venta {
 		this.idgerente = idgerente;
 	}
 
-	public int getCantidad() {
+	public Integer getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(int cantidad) {
+	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
 
@@ -141,8 +141,4 @@ public class Venta {
 				+ (fecha_venta != null ? "fecha_venta=" + fecha_venta + ", " : "")
 				+ (fecha_carga != null ? "fecha_carga=" + fecha_carga : "") + "]";
 	}
-	
-	
-	
-	
 }
