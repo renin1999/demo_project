@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,13 @@ public class GerenteController {
 	
 	@PostMapping("/insert")
 	public ResponseEntity<Gerente> createGerente(@RequestBody Gerente gerente){
+		
 		try {
+			LocalDate date = LocalDate.now();
 			Gerente _gerente = gerenteRepository.save(
 					new Gerente(
 							gerente.getIdusuario(),
-							gerente.getFecha_carga(), gerente.getVentas()));
+							date, gerente.getVentas()));
 			return new ResponseEntity<>(_gerente, HttpStatus.CREATED);
 		} catch (Exception e) {
 			Gerente _gerente = gerenteRepository.save(

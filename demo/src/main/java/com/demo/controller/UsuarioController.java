@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,10 @@ public class UsuarioController {
 	@PostMapping("/insert")
 	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario){
 		try {
+			LocalDate date = LocalDate.now();
 			Usuario _usuario = usuarioRespository.save(
 					new Usuario(
-							usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),usuario.getFecha_carga(), usuario.getAdmin(), usuario.getGerente()
+							usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),date, usuario.getAdmin(), usuario.getGerente()
 							));
 			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		} catch (Exception e) {

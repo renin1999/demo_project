@@ -1,5 +1,7 @@
 package com.demo.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +29,7 @@ public class Administrador {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario idusuario;
 	
-	public Administrador(Integer idadministrador, Usuario idusuario, String fecha_carga) {
+	public Administrador(Integer idadministrador, Usuario idusuario, LocalDate fecha_carga) {
 		super();
 		this.idadministrador = idadministrador;
 		this.idusuario = idusuario;
@@ -35,7 +37,7 @@ public class Administrador {
 	}
 
 	@Column(name= "fecha_carga")
-	private String fecha_carga;
+	private LocalDate fecha_carga;
 
 	public Integer getIdadministrador() {
 		return idadministrador;
@@ -58,15 +60,15 @@ public class Administrador {
 		this.idusuario = idusuario;
 	}
 
-	public String getFecha_carga() {
+	public LocalDate getFecha_carga() {
 		return fecha_carga;
 	}
 
-	public void setFecha_carga(String fecha_carga) {
+	public void setFecha_carga(LocalDate fecha_carga) {
 		this.fecha_carga = fecha_carga;
 	}
 
-	public Administrador(Usuario idusuario, String fecha_carga) {
+	public Administrador(Usuario idusuario, LocalDate fecha_carga) {
 		super();
 		this.idusuario = idusuario;
 		this.fecha_carga = fecha_carga;

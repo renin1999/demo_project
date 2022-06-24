@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,10 @@ public class ProveedorController {
 	@PostMapping("/insert")
 	public ResponseEntity<Proveedor> createProveedor(@RequestBody Proveedor proveedor) {
 		try {
+			LocalDate date = LocalDate.now();
 			Proveedor _proveedor = proveedorRepository
 					.save(new Proveedor(proveedor.getCodproveedor(), proveedor.getNombre_ape(), proveedor.getTelefono(),
-							proveedor.getCorreo(), proveedor.getDireccion(), proveedor.getCompras(),proveedor.getFecha_carga()));
+							proveedor.getCorreo(), proveedor.getDireccion(), proveedor.getCompras(),date));
 			return new ResponseEntity<>(_proveedor, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

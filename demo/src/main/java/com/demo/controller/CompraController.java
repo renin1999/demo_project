@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -36,6 +37,7 @@ public class CompraController {
 	@PostMapping("/insert")
 	public ResponseEntity<Compra> createAdministrador(@RequestBody Compra compra){
 		try {
+			LocalDate date = LocalDate.now();
 			Compra _compra = compraRepository.save(
 					new Compra(
 						    compra.getCodcompra(),
@@ -43,9 +45,9 @@ public class CompraController {
 							compra.getIdproveedor(),
 							compra.getCantidad(),
 							compra.getValor(),
-							compra.getTotal_compra(),
+							compra.getCantidad()*compra.getValor(),
 							compra.getFecha_compra(),
-							compra.getFecha_carga()
+							date
 							));
 			return new ResponseEntity<>(_compra, HttpStatus.CREATED);
 		} catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,9 @@ public class TipoController {
 	 @PostMapping("/insert")
 	 public ResponseEntity<Tipo> createProveedor(@RequestBody Tipo tipo) {
 		 try {
+			 LocalDate date = LocalDate.now();
 		    	Tipo _tiporepository = tiporepository
-		    			.save(new Tipo ( tipo.getCodtipo(),tipo.getDetalles(),tipo.getFecha_carga(), tipo.getArti()));
+		    			.save(new Tipo ( tipo.getCodtipo(),tipo.getDetalles(),date, tipo.getArti()));
 		    			
 		    			
 		      return new ResponseEntity<>(_tiporepository, HttpStatus.CREATED);

@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,9 @@ public class MarcaController {
 	 @PostMapping("/insert")
 	 public ResponseEntity<Marca> createProveedor(@RequestBody Marca marca) {
 		 try {
+			 LocalDate date = LocalDate.now();
 		    	Marca _marca = marc
-		    			.save(new Marca ( marca.getCodmarca(),marca.getDetalle(),marca.getFecha_carga(), marca.getArti()));
+		    			.save(new Marca ( marca.getCodmarca(),marca.getDetalle(),date, marca.getArti()));
 		    			
 		    			
 		      return new ResponseEntity<>(_marca, HttpStatus.CREATED);

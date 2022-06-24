@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,10 @@ public class PersonaController {
 	@PostMapping("/insert")
 	public ResponseEntity<Persona> createPersona(@RequestBody Persona persona) {
 		try {
+			LocalDate date = LocalDate.now();
 			Persona _persona = personaepository
 					.save(new Persona( persona.getCedula(), persona.getNombre_ape(), persona.getEdad(),
-							persona.getSexo(), persona.getTelefono(), persona.getCorreo(),persona.getFecha_carga(), persona.getUsuarios()));
+							persona.getSexo(), persona.getTelefono(), persona.getCorreo(),date, persona.getUsuarios()));
 			return new ResponseEntity<>(_persona, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

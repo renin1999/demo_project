@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class VentaController {
 	 @PostMapping("/insert")
 	 public ResponseEntity<Venta> createVenta(@RequestBody Venta venta) {
 		 try {
+			 LocalDate date = LocalDate.now();
 			 Venta _venta = ventaRepository
 		          .save(new Venta(
 		        		  venta.getCodventas(),
@@ -45,9 +47,9 @@ public class VentaController {
 		        		  venta.getIdgerente(),
 		        		  venta.getCantidad(),
 		        		  venta.getValor(),
-		        		  venta.getTotal_ventas(),
+		        		  venta.getCantidad()*venta.getValor(),
 		        		  venta.getFecha_venta(),
-		        		  venta.getFecha_carga()));
+		        		  date));
 		      return new ResponseEntity<>(_venta, HttpStatus.CREATED);
 		    } catch (Exception e) {
 		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

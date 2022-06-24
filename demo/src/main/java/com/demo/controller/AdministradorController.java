@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class AdministradorController {
 	@PostMapping("/insert")
 	public ResponseEntity<Administrador> createAdministrador(@RequestBody Administrador administrador){
 		try {
-			
+			LocalDate date = LocalDate.now();
 			Administrador _administrador = administradorRepository.save(
-					new Administrador(administrador.getIdusuario(),administrador.getFecha_carga()));
+					new Administrador(administrador.getIdusuario(),date));
 			
 			return new ResponseEntity<>(_administrador, HttpStatus.CREATED);
 			
