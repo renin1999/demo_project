@@ -36,7 +36,7 @@ public class MarcaController {
 	 public ResponseEntity<Marca> createProveedor(@RequestBody Marca marca) {
 		 try {
 		    	Marca _marca = marc
-		    			.save(new Marca (marca.getCodmarca(),marca.getDetalle(),marca.getFecha_carga()));
+		    			.save(new Marca ( marca.getCodmarca(),marca.getDetalle(),marca.getFecha_carga(), marca.getArti()));
 		    			
 		    			
 		      return new ResponseEntity<>(_marca, HttpStatus.CREATED);

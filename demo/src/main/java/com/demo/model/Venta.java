@@ -1,7 +1,9 @@
 package com.demo.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,11 +29,11 @@ public class Venta {
 	@Column(name= "codventas", unique = true, nullable = false)
 	private String codventas;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idarticulo")
 	private Articulo idarticulo;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idgerente")
 	private Gerente idgerente;
 	
@@ -97,6 +99,7 @@ public class Venta {
 	public void setIdarticulo(Articulo idarticulo) {
 		this.idarticulo = idarticulo;
 	}
+	
 
 	public Gerente getIdgerente() {
 		return idgerente;
@@ -156,4 +159,21 @@ public class Venta {
 				+ (fecha_venta != null ? "fecha_venta=" + fecha_venta + ", " : "")
 				+ (fecha_carga != null ? "fecha_carga=" + fecha_carga : "") + "]";
 	}
+
+	public Venta(Integer idventas, String codventas, Articulo idarticulo, Gerente idgerente, @Min(0) Integer cantidad,
+			@DecimalMin("0.1") @DecimalMax("100000.0") double valor,
+			@DecimalMin("0.1") @DecimalMax("100000.0") double total_ventas, LocalDate fecha_venta,
+			LocalDate fecha_carga) {
+		super();
+		this.idventas = idventas;
+		this.codventas = codventas;
+		this.idarticulo = idarticulo;
+		this.idgerente = idgerente;
+		this.cantidad = cantidad;
+		this.valor = valor;
+		this.total_ventas = total_ventas;
+		this.fecha_venta = fecha_venta;
+		this.fecha_carga = fecha_carga;
+	}
+	
 }

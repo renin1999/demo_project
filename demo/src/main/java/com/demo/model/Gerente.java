@@ -1,7 +1,9 @@
 package com.demo.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,32 +11,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "gerente")
 public class Gerente {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
+	@Column(name="idgerente", unique = true, nullable = false)
 	private Integer idgerente;
 	
-	@ManyToOne
-	@JoinColumn()
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idusuario")
 	private Usuario idusuario;
 	
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
-
-	public Gerente(Usuario idusuario, LocalDate fecha_carga) {
-		super();
-		this.idusuario = idusuario;
-		this.fecha_carga = fecha_carga;
-	}
-
-	public Gerente() {
-		super();
-	}
+	
+	@OneToMany(mappedBy = "idgerente", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Venta> ventas;
 
 	public Integer getIdgerente() {
 		return idgerente;
@@ -51,7 +51,7 @@ public class Gerente {
 	public void setIdusuario(Usuario idusuario) {
 		this.idusuario = idusuario;
 	}
-	
+
 	public LocalDate getFecha_carga() {
 		return fecha_carga;
 	}
@@ -60,14 +60,36 @@ public class Gerente {
 		this.fecha_carga = fecha_carga;
 	}
 
-	@Override
-	public String toString() {
-		return "Gerente [" + (idgerente != null ? "idgerente=" + idgerente + ", " : "")
-				+ (idusuario != null ? "idusuario=" + idusuario + ", " : "")
-				+ (fecha_carga != null ? "fecha_carga=" + fecha_carga : "") + "]";
+	public List<Venta> getVentas() {
+		return ventas;
 	}
 
-	
+	public void setVentas(List<Venta> ventas) {
+		this.ventas = ventas;
+		ventas.forEach(entity -> ventas.set(idgerente, entity));
+	}
+
+	public Gerente(Integer idgerente, Usuario idusuario, LocalDate fecha_carga, List<Venta> ventas) {
+		super();
+		this.idgerente = idgerente;
+		this.idusuario = idusuario;
+		this.fecha_carga = fecha_carga;
+		this.ventas = ventas;
+	}
+
+	public Gerente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Gerente(Usuario idusuario, LocalDate fecha_carga, List<Venta> ventas) {
+		super();
+		this.idusuario = idusuario;
+		this.fecha_carga = fecha_carga;
+		this.ventas = ventas;
+	}
+
+
 
 	
 	

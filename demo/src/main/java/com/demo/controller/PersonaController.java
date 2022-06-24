@@ -37,8 +37,8 @@ public class PersonaController {
 	public ResponseEntity<Persona> createPersona(@RequestBody Persona persona) {
 		try {
 			Persona _persona = personaepository
-					.save(new Persona(persona.getCedula(), persona.getNombre_ape(), persona.getEdad(),
-							persona.getSexo(), persona.getTelefono(), persona.getCorreo(), persona.getFecha_carga()));
+					.save(new Persona( persona.getCedula(), persona.getNombre_ape(), persona.getEdad(),
+							persona.getSexo(), persona.getTelefono(), persona.getCorreo(),persona.getFecha_carga(), persona.getUsuarios()));
 			return new ResponseEntity<>(_persona, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

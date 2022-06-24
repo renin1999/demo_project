@@ -45,7 +45,8 @@ public class ArticuloController {
 							articulo.getValor_compra(),
 							articulo.getValor_venta(),
 							articulo.getStock_final(),
-							articulo.getFecha_carga()));
+							articulo.getFecha_carga(), articulo.getVentas(), articulo.getCompras()));
+			
 			return new ResponseEntity<>(_articulo, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

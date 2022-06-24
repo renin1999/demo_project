@@ -37,7 +37,7 @@ public class UsuarioController {
 		try {
 			Usuario _usuario = usuarioRespository.save(
 					new Usuario(
-							usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),usuario.getFecha_carga()
+							usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),usuario.getFecha_carga(), usuario.getAdmin(), usuario.getGerente()
 							));
 			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		} catch (Exception e) {

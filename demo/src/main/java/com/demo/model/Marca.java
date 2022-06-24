@@ -3,11 +3,13 @@ package com.demo.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -17,9 +19,12 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "marca")
 public class Marca {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idmarca;
@@ -30,7 +35,6 @@ public class Marca {
 	@NotNull(message = "No se permite valores nulos")
 	@NotEmpty(message = "El codigo es requerida")
 	@Column(name = "codmarca")
-	@UniqueElements()
 	private String codmarca;
 	
 	
@@ -40,12 +44,17 @@ public class Marca {
 	@Column(name = "detalle")
 	private String detalle;
 	
+
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
 	
 	public String getCodmarca() {
 		return codmarca;
 	}
+
+	@OneToMany(mappedBy = "idmarca", cascade = CascadeType.MERGE )
+	@JsonIgnore
+	List<Articulo> arti;
 
 	public Integer getIdmarca() {
 		return idmarca;
@@ -75,26 +84,42 @@ public class Marca {
 		this.fecha_carga = fecha_carga;
 	}
 
+	
+	public List<Articulo> getArti() {
+		return arti;
+	}
+
+	public void setArti(List<Articulo> arti) {
+		this.arti = arti;
+	}
+
 	public Marca() {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @param codmarca
-	 * @param detalle
-	 * @param fecha_carga
-	 */
-	public Marca(String codmarca, String detalle, LocalDate fecha_carga) {
+	public Marca(Integer idmarca,
+			@Size(min = 1, max = 20, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El codigo es requerida") String codmarca,
+			@Size(min = 1, max = 150, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El detalle es requerida") String detalle,
+			LocalDate fecha_carga, List<Articulo> arti) {
+		super();
+		this.idmarca = idmarca;
+		this.codmarca = codmarca;
+		this.detalle = detalle;
+		this.fecha_carga = fecha_carga;
+		this.arti = arti;
+	}
+
+	public Marca(
+			@Size(min = 1, max = 20, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El codigo es requerida") String codmarca,
+			@Size(min = 1, max = 150, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El detalle es requerida") String detalle,
+			LocalDate fecha_carga, List<Articulo> arti) {
 		super();
 		this.codmarca = codmarca;
 		this.detalle = detalle;
 		this.fecha_carga = fecha_carga;
+		this.arti = arti;
 	}
 
-	@Override
-	public String toString() {
-		return "MarcaArticulo [idmarca=" + idmarca + ", codmarca=" + codmarca + ", detalle=" + detalle
-				+ ", fecha_carga=" + fecha_carga + "]";
-	}
+	
 
 }

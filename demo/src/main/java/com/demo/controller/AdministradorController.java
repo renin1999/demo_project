@@ -17,14 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.demo.model.Administrador;
-import com.demo.model.Persona;
-import com.demo.model.Proveedor;
 import com.demo.repository.AdministradorRepository;
 
 @RestController
 @RequestMapping("/api/v1/administrador")
 public class AdministradorController {
-
 	@Autowired
 		AdministradorRepository administradorRepository;
 	
@@ -36,19 +33,22 @@ public class AdministradorController {
 	@PostMapping("/insert")
 	public ResponseEntity<Administrador> createAdministrador(@RequestBody Administrador administrador){
 		try {
+			
 			Administrador _administrador = administradorRepository.save(
-					new Administrador(
-							administrador.getIdusuario(),
-							administrador.getFecha_carga()));
+					new Administrador(administrador.getIdusuario(),administrador.getFecha_carga()));
+			
 			return new ResponseEntity<>(_administrador, HttpStatus.CREATED);
+			
 		} catch (Exception e) {
+			Administrador _administrador = administradorRepository.save(
+					new Administrador(administrador.getIdusuario(),administrador.getFecha_carga()));
 			// TODO: handle exception
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(_administrador, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Administrador> replaceProveedor(@RequestBody Administrador administrador, @PathVariable Long id) {
+	ResponseEntity<Administrador> replaceProveedor(@RequestBody Administrador administrador, @PathVariable Integer id) {
 		
 		if (administradorRepository.existsById(id)) {
 			return new ResponseEntity<Administrador>(administradorRepository.findById(id).map(_administrador -> {
@@ -62,7 +62,7 @@ public class AdministradorController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Administrador> deletePersona(@PathVariable Long id) {
+	ResponseEntity<Administrador> deletePersona(@PathVariable Integer id) {
 		boolean existsUserById = administradorRepository.existsById(id);
 		if (existsUserById) {
 			administradorRepository.deleteById(id);
@@ -71,4 +71,7 @@ public class AdministradorController {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Administrador not found");
 	}
 	
+	
+	
 }
+

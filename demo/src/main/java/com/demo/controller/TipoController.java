@@ -37,7 +37,7 @@ public class TipoController {
 	 public ResponseEntity<Tipo> createProveedor(@RequestBody Tipo tipo) {
 		 try {
 		    	Tipo _tiporepository = tiporepository
-		    			.save(new Tipo (tipo.getCodtipo(),tipo.getDetalles(),tipo.getFecha_carga()));
+		    			.save(new Tipo ( tipo.getCodtipo(),tipo.getDetalles(),tipo.getFecha_carga(), tipo.getArti()));
 		    			
 		    			
 		      return new ResponseEntity<>(_tiporepository, HttpStatus.CREATED);

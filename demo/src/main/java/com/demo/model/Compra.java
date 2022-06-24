@@ -1,20 +1,27 @@
 package com.demo.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -24,20 +31,23 @@ public class Compra {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idcompra;
 	
-	@NotNull
-	@Max(20)
-	@Column(name = "codcompra")
+	
+	@Column(name = "codcompra", columnDefinition = "TEXT")
+	@Lob
+	@Size(min = 1, max = 20, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El codigo del compra es requerida")
 	private String codcompra;
 	
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idarticulo")
-	@NotNull
+	@JsonIgnore
 	private Articulo idarticulo;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idproveedor")
-	@NotNull
+	@JsonIgnore
 	private Proveedor idproveedor;
 	
 	@NotNull
@@ -52,21 +62,6 @@ public class Compra {
 	private LocalDate fecha_compra;
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
-	public Compra(String codcompra, Articulo idarticulo, Proveedor idproveedor, Integer cantidad, double valor,
-			double total_compra, LocalDate fecha_compra, LocalDate fecha_carga) {
-		super();
-		this.codcompra = codcompra;
-		this.idarticulo = idarticulo;
-		this.idproveedor = idproveedor;
-		this.cantidad = cantidad;
-		this.valor = valor;
-		this.total_compra = total_compra;
-		this.fecha_compra = fecha_compra;
-		this.fecha_carga = fecha_carga;
-	}
-	public Compra() {
-		super();
-	}
 	public Integer getIdcompra() {
 		return idcompra;
 	}
@@ -121,6 +116,35 @@ public class Compra {
 	public void setFecha_carga(LocalDate fecha_carga) {
 		this.fecha_carga = fecha_carga;
 	}
+	public Compra(Integer idcompra,
+			@Size(min = 1, max = 20, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El codigo del compra es requerida") String codcompra,
+			Articulo idarticulo, Proveedor idproveedor, @NotNull @Min(0) Integer cantidad, double valor,
+			double total_compra, LocalDate fecha_compra, LocalDate fecha_carga) {
+		super();
+		this.idcompra = idcompra;
+		this.codcompra = codcompra;
+		this.idarticulo = idarticulo;
+		this.idproveedor = idproveedor;
+		this.cantidad = cantidad;
+		this.valor = valor;
+		this.total_compra = total_compra;
+		this.fecha_compra = fecha_compra;
+		this.fecha_carga = fecha_carga;
+	}
+	public Compra(
+			@Size(min = 1, max = 20, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El codigo del compra es requerida") String codcompra,
+			Articulo idarticulo, Proveedor idproveedor, @NotNull @Min(0) Integer cantidad, double valor,
+			double total_compra, LocalDate fecha_compra, LocalDate fecha_carga) {
+		super();
+		this.codcompra = codcompra;
+		this.idarticulo = idarticulo;
+		this.idproveedor = idproveedor;
+		this.cantidad = cantidad;
+		this.valor = valor;
+		this.total_compra = total_compra;
+		this.fecha_compra = fecha_compra;
+		this.fecha_carga = fecha_carga;
+	}
 	@Override
 	public String toString() {
 		return "Compra [" + (idcompra != null ? "idcompra=" + idcompra + ", " : "")
@@ -131,6 +155,12 @@ public class Compra {
 				+ total_compra + ", " + (fecha_compra != null ? "fecha_compra=" + fecha_compra + ", " : "")
 				+ (fecha_carga != null ? "fecha_carga=" + fecha_carga : "") + "]";
 	}
+	public Compra() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	
 	
 }

@@ -22,7 +22,7 @@ import com.demo.repository.AdministradorRepository;
 import com.demo.repository.GerenteRepository;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/gerente")
 public class GerenteController {
 
 	
@@ -40,16 +40,19 @@ public class GerenteController {
 			Gerente _gerente = gerenteRepository.save(
 					new Gerente(
 							gerente.getIdusuario(),
-							gerente.getFecha_carga()));
+							gerente.getFecha_carga(), gerente.getVentas()));
 			return new ResponseEntity<>(_gerente, HttpStatus.CREATED);
 		} catch (Exception e) {
-			
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			Gerente _gerente = gerenteRepository.save(
+					new Gerente(
+							gerente.getIdusuario(),
+							gerente.getFecha_carga(), gerente.getVentas()));
+			return new ResponseEntity<>(_gerente, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Gerente> replaceGerente(@RequestBody Gerente gerente, @PathVariable Long id) {
+	ResponseEntity<Gerente> replaceGerente(@RequestBody Gerente gerente, @PathVariable Integer id) {
 		
 		if (gerenteRepository.existsById(id)) {
 			return new ResponseEntity<Gerente>(gerenteRepository.findById(id).map(_gerente -> {
@@ -62,7 +65,7 @@ public class GerenteController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Gerente> deleteGerente(@PathVariable Long id) {
+	ResponseEntity<Gerente> deleteGerente(@PathVariable Integer id) {
 		boolean existsUserById = gerenteRepository.existsById(id);
 		if (existsUserById) {
 			gerenteRepository.deleteById(id);

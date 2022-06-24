@@ -38,7 +38,7 @@ public class ProveedorController {
 		try {
 			Proveedor _proveedor = proveedorRepository
 					.save(new Proveedor(proveedor.getCodproveedor(), proveedor.getNombre_ape(), proveedor.getTelefono(),
-							proveedor.getCorreo(), proveedor.getDireccion(), proveedor.getFecha_carga()));
+							proveedor.getCorreo(), proveedor.getDireccion(), proveedor.getCompras(),proveedor.getFecha_carga()));
 			return new ResponseEntity<>(_proveedor, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,7 +47,7 @@ public class ProveedorController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Proveedor> SearchProveedor(@PathVariable Long id) {
+	public ResponseEntity<Proveedor> SearchProveedor(@PathVariable Integer id) {
 		try {
 			return new ResponseEntity<>(proveedorRepository.findById(id).get(), HttpStatus.OK);
 		} catch (Exception e) {
@@ -57,7 +57,7 @@ public class ProveedorController {
 	}
 
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Proveedor> replaceProveedor(@RequestBody Proveedor proveedor, @PathVariable Long id) {
+	ResponseEntity<Proveedor> replaceProveedor(@RequestBody Proveedor proveedor, @PathVariable Integer id) {
 		
 		if (proveedorRepository.existsById(id)) {
 			return new ResponseEntity<Proveedor>(proveedorRepository.findById(id).map(prov -> {
@@ -74,7 +74,7 @@ public class ProveedorController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Proveedor> deleteProveedor(@PathVariable Long id) {
+	ResponseEntity<Proveedor> deleteProveedor(@PathVariable Integer id) {
 		boolean existsUserById = proveedorRepository.existsById(id);
 		if (existsUserById) {
 			proveedorRepository.deleteById(id);

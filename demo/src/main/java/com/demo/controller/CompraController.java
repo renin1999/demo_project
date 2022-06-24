@@ -38,7 +38,7 @@ public class CompraController {
 		try {
 			Compra _compra = compraRepository.save(
 					new Compra(
-							compra.getCodcompra(),
+						    compra.getCodcompra(),
 							compra.getIdarticulo(),
 							compra.getIdproveedor(),
 							compra.getCantidad(),
@@ -49,14 +49,25 @@ public class CompraController {
 							));
 			return new ResponseEntity<>(_compra, HttpStatus.CREATED);
 		} catch (Exception e) {
+			Compra _compra = compraRepository.save(
+					new Compra(
+							compra.getCodcompra(),
+							compra.getIdarticulo(),
+							compra.getIdproveedor(),
+							compra.getCantidad(),
+							compra.getValor(),
+							compra.getTotal_compra(),
+							compra.getFecha_compra(),
+							compra.getFecha_carga()
+							));
 			// TODO: handle exception
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(_compra, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Compra> replaceCompra(@RequestBody Compra compra, @PathVariable Long id) {
+	ResponseEntity<Compra> replaceCompra(@RequestBody Compra compra, @PathVariable Integer id) {
 		
 		if (compraRepository.existsById(id)) {
 			return new ResponseEntity<Compra>(compraRepository.findById(id).map(_compra -> {
@@ -76,7 +87,7 @@ public class CompraController {
 	
 
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Compra> deleteCompra(@PathVariable Long id) {
+	ResponseEntity<Compra> deleteCompra(@PathVariable Integer id) {
 		boolean existsUserById = compraRepository.existsById(id);
 		if (existsUserById) {
 			compraRepository.deleteById(id);
