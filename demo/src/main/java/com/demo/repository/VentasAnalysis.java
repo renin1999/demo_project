@@ -21,6 +21,7 @@ public interface VentasAnalysis extends JpaRepository<Venta, Integer> {
 	@Query(value= "\r\n"
 			+ "SELECT SUM (total_ventas) from ventas", nativeQuery = true)
 	ArrayList findByGananciasTotales();
+	
 	@Query(value= "\r\n"
 			+ "SELECT SUM (total_ventas) from ventas\r\n"
 			+ "WHERE NOT ( year(fecha_venta) = ?1)", nativeQuery = true)
@@ -29,6 +30,7 @@ public interface VentasAnalysis extends JpaRepository<Venta, Integer> {
 			+ "SELECT SUM (total_ventas) from ventas\r\n"
 			+ "WHERE NOT ( Month(fecha_venta) > ?1 OR Month(fecha_venta) < ?2)", nativeQuery = true)
 	ArrayList findByGananciaspormeses(int hasta, int desde);
+	
 	@Query(value= "select top 10 art.cod_articulo, max (vent.total_ventas) \r\n"
 			+ "	from ventas as vent join articulo as art on vent.idarticulo=art.idarticulo\r\n"
 			+ "	group by art.cod_articulo,vent.total_ventas", nativeQuery = true)
