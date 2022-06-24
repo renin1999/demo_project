@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "usuario")
@@ -22,14 +25,23 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idusuario;
 	
-	@JoinColumn(name = "FK_usuario_persona", nullable = false)
-    @ManyToOne()
-	private Integer idpersona;
+	@JoinColumn(nullable = false, name = "idpersona")
+    @OneToOne()
+	private Persona idpersona;
 	
+	@Size(min = 1, max = 20, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El detalle es requerida")
 	@Column(name = "username")
 	private String username;
+	
+	@Size(min = 1, max = 16, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El detalle es requerida")
 	@Column(name = "userpassword")
 	private String userpassword;
+	
+	
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
 	
@@ -37,31 +49,15 @@ public class Usuario {
 		super();
 	}
 
-	/*
+
+	
 	public Usuario(Persona idpersona, String username, String userpassword, LocalDate fecha_carga) {
 		super();
 		this.idpersona = idpersona;
 		this.username = username;
 		this.userpassword = userpassword;
 		this.fecha_carga = fecha_carga;
-	}*/
-	
-	public Usuario(Integer idpersona, String username, String userpassword, LocalDate fecha_carga) {
-		super();
-		this.idpersona = idpersona;
-		this.username = username;
-		this.userpassword = userpassword;
-		this.fecha_carga = fecha_carga;
 	}
-	/*
-	public Persona getPersona() {
-		return persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
-	}
-	*/
 
 	
 	
@@ -70,11 +66,11 @@ public class Usuario {
 		return username;
 	}
 
-	public Integer getIdpersona() {
+	public Persona getIdpersona() {
 		return idpersona;
 	}
 
-	public void setIdpersona(Integer idpersona) {
+	public void setIdpersona(Persona idpersona) {
 		this.idpersona = idpersona;
 	}
 

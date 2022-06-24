@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "administrador")
@@ -19,9 +20,11 @@ public class Administrador {
 	private Integer idadministrador;
 	
 	@OneToOne
-	@JoinColumn()
+	@JoinColumn(name = "idusuario")
+	@NotNull
 	private Usuario idusuario;
 	
+	@NotNull
 	@Column(name= "fecha_carga")
 	private String fecha_carga;
 

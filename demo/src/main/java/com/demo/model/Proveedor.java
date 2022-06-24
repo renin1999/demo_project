@@ -2,7 +2,10 @@ package com.demo.model;
 
 import java.time.LocalDate;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "proveedor")
@@ -14,16 +17,38 @@ public class Proveedor {
 	
 	
 	@Column(name = "codproveedor")
-	@NotNull(message= "Ingresar codigo para del proveedor")
+	@Size(min = 1, max = 20, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El codigo del proveedor es requerida")
 	private String codproveedor;
+	
 	@Column(name = "nombre_ape")
+	@Size(min = 1, max = 150, message = "Se paso con los digitos para los nombre y apellidos")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El nombre y apellido es requerido")
 	private String nombre_ape;
+	
+	
 	@Column(name = "telefono")
+	@Size(min = 10, max=10, message = "Error se paso de la cantidad de caracteres")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El telefono es requerido")
 	private String telefono;
+	
+	@Email(message = "Error con el correo ingresado")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El correo es requerido")
 	@Column(name = "correo")
 	private String correo;
+	
+	
 	@Column(name = "direccion")
+	@Size(min = 1, max = 200, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "La direccion es requerida")
 	private String direccion;
+	
+	
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
 

@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 
 @Entity
@@ -24,21 +28,32 @@ public class Venta {
 	private String codventas;
 	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "idarticulo")
 	private Articulo idarticulo;
 	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "idgerente")
 	private Gerente idgerente;
 	
+	@Min(0)
 	@Column(name= "cantidad")
 	private Integer cantidad;
+	
+	@DecimalMin("0.1")
+	@DecimalMax("100000.0")
 	@Column(name= "valor")
 	private double valor;
+	
+	@DecimalMin("0.1")
+	@DecimalMax("100000.0")
 	@Column(name= "total_ventas")
 	private double total_ventas;
+	
+	
 	@Column(name= "fecha_venta")
 	private LocalDate fecha_venta;
+	
+	
 	@Column(name= "fecha_carga")
 	private LocalDate fecha_carga;
 	

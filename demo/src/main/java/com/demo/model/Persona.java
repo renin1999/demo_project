@@ -8,6 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 
@@ -17,18 +23,47 @@ public class Persona {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idpersona;
+	
+	@Size(min = 10, max = 10, message = "Error digito de la cedula")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "La cedula es requerida")
 	@Column(name = "cedula")
 	private String cedula;
+	
+	
+	
 	@Column(name = "nombre_ape")
+	@Size(min = 1, max = 150, message = "Se paso con los digitos para los nombre y apellidos")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El nombre y apellido es requerido")
 	private String nombre_ape;
+	
+	@Min(18)
+	@Max(70)
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "La edad es requerido")
 	@Column(name = "edad")
 	private int edad;
+	
+	@Size(min = 1, max=9, message = "Error se paso de la cantidad de caracteres")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El sexo es requerido")
 	@Column(name = "sexo")
 	private String sexo;
+	
+	@Size(min = 10, max=10, message = "Error se paso de la cantidad de caracteres")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El telefono es requerido")
 	@Column(name = "telefono")
 	private String telefono;
+	
+	
 	@Column(name = "correo")
+	@Email(message = "Error con el correo ingresado")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El correo es requerido")
 	private String correo;
+	
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
 	

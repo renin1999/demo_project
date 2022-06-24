@@ -11,6 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ManyToAny;
 
@@ -23,23 +30,48 @@ public class Articulo {
 
 	@ManyToOne
 	@JoinColumn(name = "idtipo")
+	@NotNull
 	private Tipo tipo;
 
 	@ManyToOne
 	@JoinColumn(name = "idmarca")
+	@NotNull
 	private Marca marca;
-
+	
+	
+	
+	@NotEmpty(message = "Codigo articulo es requerido")
+	@Size(min = 1, max = 20, message = "Longuitud pasado")
 	@Column(name = "cod_articulo")
 	private String cod_articulo;
+	
+	
 	@Column(name = "detalle")
+	@NotEmpty(message = "Detalle articulo es requerido")
+	@Size(min=2, max=20, message = "Pasado del limite de caracteres")
 	private String detalle;
+	
+	@NotNull
+	@NotEmpty(message = "Valor compra articulo es requerido")
 	@Column(name = "valor_compra")
+	@DecimalMax("100000.0") 
+	@DecimalMin("0.1")
 	private double valor_compra;
+	
+	@NotEmpty(message = "Valor venta articulo es requerido")
+	@DecimalMax("100000.0") 
+	@DecimalMin("0.1")
 	@Column(name = "valor_venta")
 	private double valor_venta;
+	
+	@NotEmpty(message = "Valor venta articulo es requerido")
 	@Column(name = "stock_final")
+	@Min(0)
 	private int stock_final;
+	
+	
 	@Column(name = "fecha_carga")
+	@NotEmpty(message = "Fecha carga articulo es requerido")
 	private LocalDate fecha_carga;
 	
 	public Articulo() {

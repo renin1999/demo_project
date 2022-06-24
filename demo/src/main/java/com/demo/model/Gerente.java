@@ -51,7 +51,7 @@ public class Gerente {
 	public void setIdusuario(Usuario idusuario) {
 		this.idusuario = idusuario;
 	}
-
+	
 	public LocalDate getFecha_carga() {
 		return fecha_carga;
 	}
@@ -66,6 +66,9 @@ public class Gerente {
 				+ (idusuario != null ? "idusuario=" + idusuario + ", " : "")
 				+ (fecha_carga != null ? "fecha_carga=" + fecha_carga : "") + "]";
 	}
+
+	
+
 	
 	
 	

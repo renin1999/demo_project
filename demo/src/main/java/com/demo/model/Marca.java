@@ -9,6 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "marca")
@@ -16,10 +23,23 @@ public class Marca {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idmarca;
+	
+	
+
+	@Size(min = 1, max = 20, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El codigo es requerida")
 	@Column(name = "codmarca")
+	@UniqueElements()
 	private String codmarca;
+	
+	
+	@Size(min = 1, max = 150, message =  "Se pasado de la longuitud")
+	@NotNull(message = "No se permite valores nulos")
+	@NotEmpty(message = "El detalle es requerida")
 	@Column(name = "detalle")
 	private String detalle;
+	
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
 	

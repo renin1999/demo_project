@@ -29,7 +29,7 @@ public class ProveedorController {
 	ProveedorRepository proveedorRepository;
 
 	@GetMapping("/listAll")
-	public List<Proveedor> index() {
+	public List<Proveedor> listProveedor() {
 		return proveedorRepository.findAll();
 	}
 
@@ -57,8 +57,8 @@ public class ProveedorController {
 	}
 
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Proveedor> replaceUser(@RequestBody Proveedor proveedor, @PathVariable Long id) {
-		System.out.print(id);
+	ResponseEntity<Proveedor> replaceProveedor(@RequestBody Proveedor proveedor, @PathVariable Long id) {
+		
 		if (proveedorRepository.existsById(id)) {
 			return new ResponseEntity<Proveedor>(proveedorRepository.findById(id).map(prov -> {
 				prov.setCodproveedor(proveedor.getCodproveedor());
@@ -74,7 +74,7 @@ public class ProveedorController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Proveedor> deleteUser(@PathVariable Long id) {
+	ResponseEntity<Proveedor> deleteProveedor(@PathVariable Long id) {
 		boolean existsUserById = proveedorRepository.existsById(id);
 		if (existsUserById) {
 			proveedorRepository.deleteById(id);

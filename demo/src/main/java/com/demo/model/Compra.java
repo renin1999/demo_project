@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -21,17 +24,24 @@ public class Compra {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idcompra;
 	
+	@NotNull
+	@Max(20)
 	@Column(name = "codcompra")
 	private String codcompra;
 	
+	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "idarticulo")
+	@NotNull
 	private Articulo idarticulo;
 	
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "idproveedor")
+	@NotNull
 	private Proveedor idproveedor;
 	
+	@NotNull
+	@Min(0)
 	@Column(name = "cantidad")
 	private Integer cantidad;
 	@Column(name = "valor")
