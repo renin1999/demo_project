@@ -42,6 +42,7 @@ public class VentaController {
 			 LocalDate date = LocalDate.now();
 			 Venta _venta = ventaRepository
 		          .save(new Venta(
+		        		  venta.getIdventas(),
 		        		  venta.getCodventas(),
 		        		  venta.getIdarticulo(),
 		        		  venta.getIdgerente(),

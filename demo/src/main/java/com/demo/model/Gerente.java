@@ -25,14 +25,14 @@ public class Gerente {
 	@Column(name="idgerente", unique = true, nullable = false)
 	private Integer idgerente;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idusuario")
 	private Usuario idusuario;
 	
-	@Column(name = "fecha_carga")
+	@Column(name = "fechacarga")
 	private LocalDate fecha_carga;
 	
-	@OneToMany(mappedBy = "idgerente", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "idgerente", cascade = CascadeType.MERGE)
 	@JsonIgnore
 	private List<Venta> ventas;
 
@@ -82,16 +82,6 @@ public class Gerente {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Gerente(Usuario idusuario, LocalDate fecha_carga, List<Venta> ventas) {
-		super();
-		this.idusuario = idusuario;
-		this.fecha_carga = fecha_carga;
-		this.ventas = ventas;
-	}
-
-
-
-	
 	
 	
 }

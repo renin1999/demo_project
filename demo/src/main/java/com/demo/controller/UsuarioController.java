@@ -3,6 +3,8 @@ package com.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +36,12 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario usuario){
 		try {
 			LocalDate date = LocalDate.now();
 			Usuario _usuario = usuarioRespository.save(
 					new Usuario(
-							usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),date, usuario.getAdmin(), usuario.getGerente()
+							usuario.getIdusuario(),usuario.getIdpersona(),usuario.getUsername(),usuario.getUserpassword(),date, usuario.getAdmin(), usuario.getGerente()
 							));
 			return new ResponseEntity<>(_usuario, HttpStatus.CREATED);
 		} catch (Exception e) {

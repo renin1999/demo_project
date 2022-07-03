@@ -26,7 +26,7 @@ public class Administrador {
 	
 	
 	@JoinColumn(name = "idusuario" )
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Usuario idusuario;
 	
 	public Administrador(Integer idadministrador, Usuario idusuario, LocalDate fecha_carga) {
@@ -36,7 +36,7 @@ public class Administrador {
 		this.fecha_carga = fecha_carga;
 	}
 
-	@Column(name= "fecha_carga")
+	@Column(name= "fechacarga")
 	private LocalDate fecha_carga;
 
 	public Integer getIdadministrador() {
@@ -68,11 +68,6 @@ public class Administrador {
 		this.fecha_carga = fecha_carga;
 	}
 
-	public Administrador(Usuario idusuario, LocalDate fecha_carga) {
-		super();
-		this.idusuario = idusuario;
-		this.fecha_carga = fecha_carga;
-	}
 
 	@Override
 	public String toString() {

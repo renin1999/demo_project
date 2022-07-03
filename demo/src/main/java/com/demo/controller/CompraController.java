@@ -38,8 +38,10 @@ public class CompraController {
 	public ResponseEntity<Compra> createAdministrador(@RequestBody Compra compra){
 		try {
 			LocalDate date = LocalDate.now();
+			System.out.println("asdad"+compra.getIdarticulo()+"_____"+compra.getIdproveedor());
 			Compra _compra = compraRepository.save(
 					new Compra(
+							compra.getIdcompra(),
 						    compra.getCodcompra(),
 							compra.getIdarticulo(),
 							compra.getIdproveedor(),
@@ -53,6 +55,7 @@ public class CompraController {
 		} catch (Exception e) {
 			Compra _compra = compraRepository.save(
 					new Compra(
+							compra.getIdcompra(),
 							compra.getCodcompra(),
 							compra.getIdarticulo(),
 							compra.getIdproveedor(),

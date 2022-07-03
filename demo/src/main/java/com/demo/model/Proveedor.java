@@ -12,7 +12,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "proveedor")
+@Table(name = "proveedor", uniqueConstraints=
+@UniqueConstraint(columnNames={"codproveedor"}))
 public class Proveedor {
 	
 	public Proveedor(Integer idproveedor,
@@ -72,7 +73,7 @@ public class Proveedor {
 	
 	@OneToMany(mappedBy = "idproveedor", cascade = CascadeType.ALL)
 	@JsonIgnore
-	List<Compra> compras;
+    private List<Compra> compras;
 	
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;

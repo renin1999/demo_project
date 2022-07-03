@@ -1,6 +1,9 @@
 package com.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,18 +37,21 @@ public class ArticuloController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<Articulo> createArticulo(@RequestBody Articulo articulo){
+	public ResponseEntity<Articulo> createArticulo(@Valid @RequestBody Articulo articulo){
 		try {
+			LocalDate fecha = LocalDate.now();
+			System.out.printf(articulo.getIdmarca()+"____"+articulo.getIdtipo()+"____");
 			Articulo _articulo = articuloRepository.save(
 					new Articulo(
-							articulo.getTipo(),
-							articulo.getMarca(),
+							articulo.getIdarticulo(),
+							articulo.getIdtipo(),
+							articulo.getIdmarca(),
 							articulo.getCod_articulo(),
 							articulo.getDetalle(),
 							articulo.getValor_compra(),
 							articulo.getValor_venta(),
 							articulo.getStock_final(),
-							articulo.getFecha_carga(), articulo.getVentas(), articulo.getCompras()));
+						    fecha, articulo.getCompras(), articulo.getVentas())	);
 			
 			return new ResponseEntity<>(_articulo, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -57,8 +63,8 @@ public class ArticuloController {
 	ResponseEntity<Articulo> replaceArticulo(@RequestBody Articulo articulo, @PathVariable Integer id) {
 		if (articuloRepository.existsById(id)) {
 			return new ResponseEntity<Articulo>(articuloRepository.findById(id).map(_articulo -> {
-				_articulo.setTipo(articulo.getTipo());
-				_articulo.setMarca(articulo.getMarca());
+				_articulo.setIdtipo(articulo.getIdtipo());
+				_articulo.setIdmarca(articulo.getIdmarca());
 				_articulo.setCod_articulo(articulo.getCod_articulo());
 				_articulo.setDetalle(articulo.getDetalle());
 				_articulo.setValor_compra(articulo.getValor_compra());

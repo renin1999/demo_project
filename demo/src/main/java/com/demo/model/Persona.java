@@ -39,7 +39,7 @@ public class Persona {
 	
 	
 	
-	@Column(name = "nombre_ape")
+	@Column(name = "nombreape")
 	@NotNull(message = "No se permite valores nulos")
 	@NotEmpty(message = "El nombre y apellido es requerido")
 	private String nombre_ape;
@@ -48,8 +48,8 @@ public class Persona {
 	
 	@Column(name = "edad")
 	@NotNull(message = "No se permite valores nulos")
-	@Min(18)
-	@Max(70)
+	@Min(value=18, message = "No se permite valores menores a 18")
+	@Max(value=70,message = "No se permite valores mayores a 70")
 	private int edad;
 	
 	
@@ -70,7 +70,7 @@ public class Persona {
 	@Column(name = "fecha_carga")
 	private LocalDate fecha_carga;
 	
-	@OneToMany(mappedBy = "idpersona", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "idpersona", cascade = CascadeType.MERGE)
 	@JsonIgnore
     private List<Usuario> usuarios;
 

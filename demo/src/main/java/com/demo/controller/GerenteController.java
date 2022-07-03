@@ -41,13 +41,13 @@ public class GerenteController {
 		try {
 			LocalDate date = LocalDate.now();
 			Gerente _gerente = gerenteRepository.save(
-					new Gerente(
+					new Gerente(gerente.getIdgerente(),
 							gerente.getIdusuario(),
 							date, gerente.getVentas()));
 			return new ResponseEntity<>(_gerente, HttpStatus.CREATED);
 		} catch (Exception e) {
 			Gerente _gerente = gerenteRepository.save(
-					new Gerente(
+					new Gerente(gerente.getIdgerente(),
 							gerente.getIdusuario(),
 							gerente.getFecha_carga(), gerente.getVentas()));
 			return new ResponseEntity<>(_gerente, HttpStatus.INTERNAL_SERVER_ERROR);

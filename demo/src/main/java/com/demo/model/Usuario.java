@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,7 +23,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario", uniqueConstraints=
+@UniqueConstraint(columnNames={"username"}))
 public class Usuario {
 	
 	@Id
@@ -30,9 +32,8 @@ public class Usuario {
 	private Integer idusuario;
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idpersona")
-	@JsonIgnore
 	private Persona idpersona;
 	
 	@Size(min = 1, max = 20, message =  "Se pasado de la longuitud")
@@ -48,18 +49,18 @@ public class Usuario {
 	private String userpassword;
 	
 	
-	@Column(name = "fecha_carga")
+	@Column(name = "fechacarga")
 	private LocalDate fecha_carga;
 	
 	public Usuario() {
 		super();
 	}
 
-	@OneToMany(mappedBy = "idusuario", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "idusuario", cascade = CascadeType.MERGE)
 	@JsonIgnore
 	private List<Administrador> admin;
 	
-	@OneToMany(mappedBy = "idusuario", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "idusuario", cascade = CascadeType.MERGE)
 	@JsonIgnore
 	private List<Gerente> gerente;
 
@@ -119,6 +120,15 @@ public class Usuario {
 		this.gerente = gerente;
 	}
 
+	/**
+	 * @param idusuario
+	 * @param idpersona
+	 * @param username
+	 * @param userpassword
+	 * @param fecha_carga
+	 * @param admin
+	 * @param gerente
+	 */
 	public Usuario(Integer idusuario, Persona idpersona,
 			@Size(min = 1, max = 20, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El detalle es requerida") String username,
 			@Size(min = 1, max = 16, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El detalle es requerida") String userpassword,
@@ -133,18 +143,14 @@ public class Usuario {
 		this.gerente = gerente;
 	}
 
-	public Usuario(Persona idpersona,
-			@Size(min = 1, max = 20, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El detalle es requerida") String username,
-			@Size(min = 1, max = 16, message = "Se pasado de la longuitud") @NotNull(message = "No se permite valores nulos") @NotEmpty(message = "El detalle es requerida") String userpassword,
-			LocalDate fecha_carga, List<Administrador> admin, List<Gerente> gerente) {
-		super();
-		this.idpersona = idpersona;
-		this.username = username;
-		this.userpassword = userpassword;
-		this.fecha_carga = fecha_carga;
-		this.admin = admin;
-		this.gerente = gerente;
+	@Override
+	public String toString() {
+		return "Usuario [idusuario=" + idusuario + ", idpersona=" + idpersona + ", username=" + username
+				+ ", userpassword=" + userpassword + ", fecha_carga=" + fecha_carga + ", admin=" + admin + ", gerente="
+				+ gerente + "]";
 	}
+
+
 	
 	
 	

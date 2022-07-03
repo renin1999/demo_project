@@ -3,6 +3,8 @@ package com.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +34,17 @@ public class AdministradorController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<Administrador> createAdministrador(@RequestBody Administrador administrador){
+	public ResponseEntity<Administrador> createAdministrador(@Valid @RequestBody Administrador administrador){
 		try {
 			LocalDate date = LocalDate.now();
 			Administrador _administrador = administradorRepository.save(
-					new Administrador(administrador.getIdusuario(),date));
+					new Administrador(administrador.getIdadministrador(),administrador.getIdusuario(),date));
 			
 			return new ResponseEntity<>(_administrador, HttpStatus.CREATED);
 			
 		} catch (Exception e) {
 			Administrador _administrador = administradorRepository.save(
-					new Administrador(administrador.getIdusuario(),administrador.getFecha_carga()));
+					new Administrador(administrador.getIdadministrador(),administrador.getIdusuario(),administrador.getFecha_carga()));
 			// TODO: handle exception
 			return new ResponseEntity<>(_administrador, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,7 +19,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "tipo")
+@Table(name = "tipo", uniqueConstraints=
+@UniqueConstraint(columnNames={"codtipo"}))
 public class Tipo {
 	
 	@Id
@@ -79,6 +81,7 @@ public class Tipo {
 	}
 	public void setArti(List<Articulo> arti) {
 		this.arti = arti;
+		arti.forEach(entity -> arti.set(idtipo, entity));
 	}
 	
 	public Tipo(
