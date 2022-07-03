@@ -3,6 +3,8 @@ package com.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ public class VentaController {
 	 }
 	 
 	 @PostMapping("/insert")
-	 public ResponseEntity<Venta> createVenta(@RequestBody Venta venta) {
+	 public ResponseEntity<Venta> createVenta(@Valid @RequestBody Venta venta) {
 		 try {
 			 LocalDate date = LocalDate.now();
 			 Venta _venta = ventaRepository
