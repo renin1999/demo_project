@@ -3,6 +3,8 @@ package com.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.demo.model.Compra;
 import com.demo.model.Marca;
 import com.demo.model.Proveedor;
 import com.demo.repository.MarcaRepository;
@@ -34,7 +37,7 @@ public class MarcaController {
 	 
 	 
 	 @PostMapping("/insert")
-	 public ResponseEntity<Marca> createProveedor(@RequestBody Marca marca) {
+	 public ResponseEntity<Marca> createMarca(@Valid @RequestBody Marca marca) {
 		 try {
 			 LocalDate date = LocalDate.now();
 		    	Marca _marca = marc
@@ -50,13 +53,14 @@ public class MarcaController {
 	 
 	 
 	 @PutMapping("/edit/{id}")
-		ResponseEntity<Marca> replaceMarca(@RequestBody Marca marca, @PathVariable Integer id) {
+		ResponseEntity<Marca> replaceMarca(@Valid @RequestBody Marca marca, @PathVariable Integer id) {
 			
 			if (marc.existsById(id)) {
+				LocalDate fecha = LocalDate.now();
 				return new ResponseEntity<Marca>(marc.findById(id).map(mar -> {
 					mar.setCodmarca(marca.getCodmarca());
 					mar.setDetalle(marca.getDetalle());
-					mar.setFecha_carga(marca.getFecha_carga());
+					mar.setFecha_carga(fecha);
 					return marc.save(mar);
 				}).get(), HttpStatus.OK);
 			}
@@ -72,5 +76,15 @@ public class MarcaController {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca not found");
+		}
+	 
+	 @GetMapping("/list/{id}")
+		public ResponseEntity<Marca> searchMarca(@PathVariable Integer id) {
+			try {
+				return new ResponseEntity<>(marc.findById(id).get(), HttpStatus.OK);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 }

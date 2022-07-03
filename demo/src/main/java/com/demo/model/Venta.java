@@ -41,13 +41,10 @@ public class Venta {
 	@Column(name= "cantidad")
 	private Integer cantidad;
 	
-	@DecimalMin("0.1")
-	@DecimalMax("100000.0")
 	@Column(name= "valor")
+	@DecimalMin(value = "0.01", message = "Valor debe ser positivo...")
 	private double valor;
 	
-	@DecimalMin("0.1")
-	@DecimalMax("100000.0")
 	@Column(name= "totalventas")
 	private double total_ventas;
 	

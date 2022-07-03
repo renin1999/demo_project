@@ -3,6 +3,8 @@ package com.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,7 @@ public class GerenteController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<Gerente> createGerente(@RequestBody Gerente gerente){
+	public ResponseEntity<Gerente> createGerente(@Valid @RequestBody Gerente gerente){
 		
 		try {
 			LocalDate date = LocalDate.now();
@@ -55,12 +57,13 @@ public class GerenteController {
 	}
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Gerente> replaceGerente(@RequestBody Gerente gerente, @PathVariable Integer id) {
+	ResponseEntity<Gerente> replaceGerente(@Valid @RequestBody Gerente gerente, @PathVariable Integer id) {
 		
 		if (gerenteRepository.existsById(id)) {
+			LocalDate fecha = LocalDate.now();
 			return new ResponseEntity<Gerente>(gerenteRepository.findById(id).map(_gerente -> {
 				_gerente.setIdusuario(gerente.getIdusuario());
-				_gerente.setFecha_carga(gerente.getFecha_carga());
+				_gerente.setFecha_carga(fecha);
 				return gerenteRepository.save(_gerente);
 			}).get(), HttpStatus.OK);
 		}

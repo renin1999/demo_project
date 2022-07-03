@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.demo.model.Administrador;
 import com.demo.model.Articulo;
 import com.demo.model.Marca;
 import com.demo.model.Proveedor;
@@ -60,8 +61,9 @@ public class ArticuloController {
 	}
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Articulo> replaceArticulo(@RequestBody Articulo articulo, @PathVariable Integer id) {
+	ResponseEntity<Articulo> replaceArticulo(@Valid @RequestBody Articulo articulo, @PathVariable Integer id) {
 		if (articuloRepository.existsById(id)) {
+			LocalDate date = LocalDate.now();
 			return new ResponseEntity<Articulo>(articuloRepository.findById(id).map(_articulo -> {
 				_articulo.setIdtipo(articulo.getIdtipo());
 				_articulo.setIdmarca(articulo.getIdmarca());
@@ -70,7 +72,7 @@ public class ArticuloController {
 				_articulo.setValor_compra(articulo.getValor_compra());
 				_articulo.setValor_venta(articulo.getValor_compra());
 				_articulo.setStock_final(articulo.getStock_final());
-				_articulo.setFecha_carga(articulo.getFecha_carga());
+				_articulo.setFecha_carga(date);
 				return articuloRepository.save(_articulo);
 			}).get(), HttpStatus.OK);
 		}
@@ -78,7 +80,7 @@ public class ArticuloController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Proveedor> deleteArticulo(@PathVariable Integer id) {
+	ResponseEntity<Articulo> deleteArticulo(@PathVariable Integer id) {
 		boolean existsUserById = articuloRepository.existsById(id);
 		if (existsUserById) {
 			articuloRepository.deleteById(id);
@@ -87,5 +89,14 @@ public class ArticuloController {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Proveedor not found");
 	}
 	
+	@GetMapping("/list/{id}")
+	public ResponseEntity<Articulo> searchArticulo(@PathVariable Integer id) {
+		try {
+			return new ResponseEntity<>(articuloRepository.findById(id).get(), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 }

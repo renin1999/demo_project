@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.demo.model.Proveedor;
+import com.demo.model.Tipo;
 import com.demo.model.Usuario;
 
 import com.demo.repository.UsuarioRespository;
@@ -51,14 +52,15 @@ public class UsuarioController {
 	}
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Usuario> replaceUsuario(@RequestBody Usuario usuario, @PathVariable Integer id) {
+	ResponseEntity<Usuario> replaceUsuario(@Valid @RequestBody Usuario usuario, @PathVariable Integer id) {
 		
 		if (usuarioRespository.existsById(id)) {
+			LocalDate fecha = LocalDate.now();
 			return new ResponseEntity<Usuario>(usuarioRespository.findById(id).map(_usuario -> {
 				_usuario.setIdpersona(usuario.getIdpersona());
 				_usuario.setUsername(usuario.getUsername());
 				_usuario.setUserpassword(usuario.getUserpassword());
-				_usuario.setFecha_carga(usuario.getFecha_carga());
+				_usuario.setFecha_carga(fecha);
 				return usuarioRespository.save(_usuario);
 			}).get(), HttpStatus.OK);
 		}
@@ -67,7 +69,7 @@ public class UsuarioController {
 	
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Usuario> deleteProveedor(@PathVariable Integer id) {
+	ResponseEntity<Usuario> deleteUsuario(@PathVariable Integer id) {
 		boolean existsUserById = usuarioRespository.existsById(id);
 		if (existsUserById) {
 			usuarioRespository.deleteById(id);
@@ -75,4 +77,14 @@ public class UsuarioController {
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario not found");
 	}
+	
+	 @GetMapping("/list/{id}")
+		public ResponseEntity<Usuario> searchUsuario(@PathVariable Integer id) {
+			try {
+				return new ResponseEntity<>(usuarioRespository.findById(id).get(), HttpStatus.OK);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
 }

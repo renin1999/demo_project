@@ -360,6 +360,24 @@ public class Articulo {
 
 
 
+	public Articulo compraaddstock(int cantidad, Articulo arti){
+
+			System.out.println(arti.getStock_final()+"___"+cantidad);
+			arti.setStock_final(arti.getStock_final()+cantidad);
+			System.out.println(arti.getStock_final()+"finish");
+			
+			return arti;			
+
+		
+	}
+	public boolean ventaaddstock(int cantidad, Articulo arti){
+		if(cantidad<arti.getStock_final()) {
+			arti.setStock_final(arti.getStock_final()-cantidad);
+			return true;
+		}
+		else
+		return false;
+	}
 
 
 

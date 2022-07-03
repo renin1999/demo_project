@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.demo.model.Administrador;
+import com.demo.model.Proveedor;
 import com.demo.repository.AdministradorRepository;
 
 @RestController
@@ -51,12 +52,13 @@ public class AdministradorController {
 	}
 	
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Administrador> replaceProveedor(@RequestBody Administrador administrador, @PathVariable Integer id) {
+	ResponseEntity<Administrador> replaceAdministrador(@Valid @RequestBody Administrador administrador, @PathVariable Integer id) {
 		
 		if (administradorRepository.existsById(id)) {
+			LocalDate date = LocalDate.now();
 			return new ResponseEntity<Administrador>(administradorRepository.findById(id).map(_administrador -> {
 				_administrador.setIdadministrador(administrador.getIdadministrador());
-				_administrador.setFecha_carga(administrador.getFecha_carga());
+				_administrador.setFecha_carga(date);
 				_administrador.setIdusuario(administrador.getIdusuario());
 				return administradorRepository.save(_administrador);
 			}).get(), HttpStatus.OK);
@@ -65,13 +67,23 @@ public class AdministradorController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<Administrador> deletePersona(@PathVariable Integer id) {
+	ResponseEntity<Administrador> deleteAdministrador(@PathVariable Integer id) {
 		boolean existsUserById = administradorRepository.existsById(id);
 		if (existsUserById) {
 			administradorRepository.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Administrador not found");
+	}
+	
+	@GetMapping("/list/{id}")
+	public ResponseEntity<Administrador> searchAdministrador(@PathVariable Integer id) {
+		try {
+			return new ResponseEntity<>(administradorRepository.findById(id).get(), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

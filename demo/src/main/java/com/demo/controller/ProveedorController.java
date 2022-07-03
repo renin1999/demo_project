@@ -4,6 +4,8 @@ package com.demo.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,7 @@ public class ProveedorController {
 	}
 
 	@PostMapping("/insert")
-	public ResponseEntity<Proveedor> createProveedor(@RequestBody Proveedor proveedor) {
+	public ResponseEntity<Proveedor> createProveedor(@Valid @RequestBody Proveedor proveedor) {
 		try {
 			LocalDate date = LocalDate.now();
 			Proveedor _proveedor = proveedorRepository
@@ -48,7 +50,7 @@ public class ProveedorController {
 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/list/{id}")
 	public ResponseEntity<Proveedor> SearchProveedor(@PathVariable Integer id) {
 		try {
 			return new ResponseEntity<>(proveedorRepository.findById(id).get(), HttpStatus.OK);
@@ -59,16 +61,17 @@ public class ProveedorController {
 	}
 
 	@PutMapping("/edit/{id}")
-	ResponseEntity<Proveedor> replaceProveedor(@RequestBody Proveedor proveedor, @PathVariable Integer id) {
+	ResponseEntity<Proveedor> replaceProveedor(@Valid @RequestBody Proveedor proveedor, @PathVariable Integer id) {
 		
 		if (proveedorRepository.existsById(id)) {
+			LocalDate fecha = LocalDate.now();
 			return new ResponseEntity<Proveedor>(proveedorRepository.findById(id).map(prov -> {
 				prov.setCodproveedor(proveedor.getCodproveedor());
 				prov.setNombre_ape(proveedor.getNombre_ape());
 				prov.setTelefono(proveedor.getTelefono());
 				prov.setCorreo(proveedor.getCorreo());
 				prov.setDireccion(proveedor.getDireccion());
-				prov.setFecha_carga(proveedor.getFecha_carga());
+				prov.setFecha_carga(fecha);
 				return proveedorRepository.save(prov);
 			}).get(), HttpStatus.OK);
 		}

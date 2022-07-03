@@ -35,8 +35,7 @@ public class Compra {
 	private Integer idcompra;
 	
 	
-	@Column(name = "codcompra", columnDefinition = "TEXT")
-	@Lob
+	@Column(name = "codcompra")
 	@Size(min = 1, max = 20, message =  "Se pasado de la longuitud")
 	@NotNull(message = "No se permite valores nulos")
 	@NotEmpty(message = "El codigo del compra es requerida")
@@ -61,7 +60,6 @@ public class Compra {
 	private double valor;
 	
 	@Column(name = "totalcompra")
-	@DecimalMin(value = "0.01", message = "Valor debe ser positivo...")
 	private double total_compra;
 	
 	@Column(name = "fechacompra")

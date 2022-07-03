@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.demo.model.Articulo;
 import com.demo.model.Marca;
 import com.demo.model.Proveedor;
 import com.demo.model.Usuario;
@@ -42,18 +43,24 @@ public class VentaController {
 	 public ResponseEntity<Venta> createVenta(@Valid @RequestBody Venta venta) {
 		 try {
 			 LocalDate date = LocalDate.now();
-			 Venta _venta = ventaRepository
-		          .save(new Venta(
-		        		  venta.getIdventas(),
-		        		  venta.getCodventas(),
-		        		  venta.getIdarticulo(),
-		        		  venta.getIdgerente(),
-		        		  venta.getCantidad(),
-		        		  venta.getValor(),
-		        		  venta.getCantidad()*venta.getValor(),
-		        		  venta.getFecha_venta(),
-		        		  date));
-		      return new ResponseEntity<>(_venta, HttpStatus.CREATED);
+			 System.out.println((venta.getCantidad()*venta.getValor()));
+			 //if(venta.getIdarticulo().ventaaddstock(venta.getCantidad(),(Articulo)venta.getIdarticulo())) {
+				 Venta _venta = ventaRepository
+				          .save(new Venta(
+				        		  venta.getIdventas(),
+				        		  venta.getCodventas(),
+				        		  venta.getIdarticulo(),
+				        		  venta.getIdgerente(),
+				        		  venta.getCantidad(),
+				        		  venta.getValor(),
+				        		  (venta.getCantidad()*venta.getValor()),
+				        		  venta.getFecha_venta(),
+				        		  date));
+				      return new ResponseEntity<>(_venta, HttpStatus.CREATED);
+			 //}
+			 //else
+				//return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			 
 		    } catch (Exception e) {
 		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		    }
@@ -61,20 +68,25 @@ public class VentaController {
 	 }
 	 
 	 @PutMapping("/edit/{id}")
-		ResponseEntity<Venta> replaceVenta(@RequestBody Venta venta, @PathVariable Integer id) {
+		ResponseEntity<Venta> replaceVenta(@Valid @RequestBody Venta venta, @PathVariable Integer id) {
 			
+		 
 			if (ventaRepository.existsById(id)) {
-				return new ResponseEntity<Venta>(ventaRepository.findById(id).map(_venta -> {
-					_venta.setCodventas(venta.getCodventas());
-					_venta.setIdarticulo(venta.getIdarticulo());
-					_venta.setIdgerente(venta.getIdgerente());
-					_venta.setCantidad(venta.getCantidad());
-					_venta.setValor(venta.getValor());
-					_venta.setTotal_ventas(venta.getTotal_ventas());
-					_venta.setFecha_venta(venta.getFecha_venta());
-					_venta.setFecha_carga(venta.getFecha_carga());
-					return ventaRepository.save(_venta);
-				}).get(), HttpStatus.OK);
+				LocalDate fecha = LocalDate.now();
+				 if(venta.getIdarticulo().ventaaddstock(venta.getCantidad(), (Articulo)venta.getIdarticulo())) {
+					 return new ResponseEntity<Venta>(ventaRepository.findById(id).map(_venta -> {
+							_venta.setCodventas(venta.getCodventas());
+							_venta.setIdarticulo(venta.getIdarticulo());
+							_venta.setIdgerente(venta.getIdgerente());
+							_venta.setCantidad(venta.getCantidad());
+							_venta.setValor(venta.getValor());
+							_venta.setTotal_ventas(venta.getCantidad()*venta.getValor());
+							_venta.setFecha_venta(venta.getFecha_venta());
+							_venta.setFecha_carga(fecha);
+							return ventaRepository.save(_venta);
+						}).get(), HttpStatus.OK);
+				 }
+				
 			}
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Venta not found");
 		}
@@ -87,5 +99,15 @@ public class VentaController {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Venta not found");
+		}
+	 
+	 @GetMapping("/list/{id}")
+		public ResponseEntity<Venta> searchUsuario(@PathVariable Integer id) {
+			try {
+				return new ResponseEntity<>(ventaRepository.findById(id).get(), HttpStatus.OK);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 }

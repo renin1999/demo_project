@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -25,7 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Table(name = "persona")
+@Table(name = "persona", uniqueConstraints=
+@UniqueConstraint(columnNames={"cedula","correo"}))
 public class Persona {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
