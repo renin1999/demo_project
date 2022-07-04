@@ -370,13 +370,19 @@ public class Articulo {
 
 		
 	}
-	public boolean ventaaddstock(int cantidad, Articulo arti){
+	public Articulo ventaaddstock(int cantidad, Articulo arti){
 		if(cantidad<arti.getStock_final()) {
+			System.out.println(arti.getStock_final()+"___"+cantidad);
 			arti.setStock_final(arti.getStock_final()-cantidad);
-			return true;
+			System.out.println(arti.getStock_final()+"finish");
+			return arti;
 		}
 		else
-		return false;
+		{
+			System.out.println(arti.getStock_final()+"___"+cantidad+"Cantidad a vender sobrepasa al stock");
+			return null;
+		}
+			
 	}
 
 

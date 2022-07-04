@@ -1,13 +1,16 @@
 package com.demo.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +24,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.demo.model.Administrador;
 import com.demo.model.Articulo;
+import com.demo.model.Compra;
 import com.demo.model.Marca;
 import com.demo.model.Proveedor;
+import com.demo.model.Tipo;
+import com.demo.model.Venta;
 import com.demo.repository.ArticuloRepository;
 
 @RestController
@@ -98,5 +104,8 @@ public class ArticuloController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+
+	
 	
 }

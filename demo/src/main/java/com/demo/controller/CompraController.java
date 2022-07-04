@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,9 @@ public class CompraController {
 	
 	@Autowired
 		CompraRepository compraRepository;
-		ArticuloRepository arti;
+	@Autowired
+		Services service;
+	@Autowired
 		ArticuloController artic;
 	
 	
@@ -40,6 +43,7 @@ public class CompraController {
 	
 	@PostMapping("/insert")
 	public ResponseEntity<Compra> createCompra(@Valid @RequestBody Compra compra){
+		boolean b=false;
 		try {
 			LocalDate date = LocalDate.now();
 			if(compra.getIdarticulo().compraaddstock(compra.getCantidad(),compra.getIdarticulo())!=null) {
@@ -55,17 +59,19 @@ public class CompraController {
 								compra.getFecha_compra(),
 								date
 								));
+								
+				int stock= compra.getIdarticulo().getStock_final();
+				Integer x = compra.getIdarticulo().getIdarticulo();
 				
-				artic.replaceArticulo(compra.getIdarticulo(), compra.getIdarticulo().getIdarticulo());
+				service.updatestock(stock, x)	;	
+					
 				return new ResponseEntity<>(_compra, HttpStatus.CREATED);
 			}
-			else {
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+				
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 			
 			
 		} catch (Exception e) {
-
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -87,8 +93,16 @@ public class CompraController {
 					_compra.setTotal_compra(compra.getCantidad()*compra.getValor());
 					_compra.setFecha_compra(compra.getFecha_compra());
 					_compra.setFecha_carga(fecha);
+					int stock= compra.getIdarticulo().getStock_final();
+					Integer x = compra.getIdarticulo().getIdarticulo();
+					
+					service.updatestock(stock, x)	;	
 					return compraRepository.save(_compra);
+					
 				}).get(), HttpStatus.OK);
+			}
+			else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra not found");
 			}
 			
 		}

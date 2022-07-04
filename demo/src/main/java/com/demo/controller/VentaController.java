@@ -33,6 +33,8 @@ public class VentaController {
 	
 	@Autowired
 	  VentaRepository ventaRepository;
+	@Autowired
+	Services service;
 	
 	 @GetMapping("/listAll")
 	 public List<Venta> listVenta(){
@@ -43,8 +45,7 @@ public class VentaController {
 	 public ResponseEntity<Venta> createVenta(@Valid @RequestBody Venta venta) {
 		 try {
 			 LocalDate date = LocalDate.now();
-			 System.out.println((venta.getCantidad()*venta.getValor()));
-			 //if(venta.getIdarticulo().ventaaddstock(venta.getCantidad(),(Articulo)venta.getIdarticulo())) {
+			 if(venta.getIdarticulo().ventaaddstock(venta.getCantidad(),venta.getIdarticulo())!=null) {
 				 Venta _venta = ventaRepository
 				          .save(new Venta(
 				        		  venta.getIdventas(),
@@ -56,10 +57,16 @@ public class VentaController {
 				        		  (venta.getCantidad()*venta.getValor()),
 				        		  venta.getFecha_venta(),
 				        		  date));
+				 	
+				 System.out.println(venta.getCantidad()+"___"+venta.getIdarticulo().getStock_final());
+				    int stock= venta.getIdarticulo().getStock_final();
+					Integer x = venta.getIdarticulo().getIdarticulo();
+					
+					  service.updatestock(stock, x);
 				      return new ResponseEntity<>(_venta, HttpStatus.CREATED);
-			 //}
-			 //else
-				//return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			 }
+			
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 			 
 		    } catch (Exception e) {
 		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,7 +80,7 @@ public class VentaController {
 		 
 			if (ventaRepository.existsById(id)) {
 				LocalDate fecha = LocalDate.now();
-				 if(venta.getIdarticulo().ventaaddstock(venta.getCantidad(), (Articulo)venta.getIdarticulo())) {
+				 if(venta.getIdarticulo().ventaaddstock(venta.getCantidad(),venta.getIdarticulo())!=null) {
 					 return new ResponseEntity<Venta>(ventaRepository.findById(id).map(_venta -> {
 							_venta.setCodventas(venta.getCodventas());
 							_venta.setIdarticulo(venta.getIdarticulo());
